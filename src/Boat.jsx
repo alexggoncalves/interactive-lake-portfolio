@@ -5,18 +5,10 @@ import { useKeyboardControls, PivotControls } from "@react-three/drei";
 import { Quaternion } from "three";
 import { useControls } from "leva";
 import * as THREE from "three";
-import { Water } from 'three-stdlib'
-                
-function getWaveheight(x,z,elapsedTime,waterProps){
-    // return Math.sin((x * waterProps.waveFrequency.x + (elapsedTime * waterProps.waveSpeed))*2)
-    return 0
-   return  Math.sin(((x) * waterProps.waveFrequency.x + (elapsedTime * waterProps.waveSpeed))/2)
-    * Math.sin(((-z) * waterProps.waveFrequency.y + (elapsedTime * waterProps.waveSpeed))/wa2)
-    * waterProps.waveElevation;
 
-}
 
 let angle = 0;
+
 export default function Boat({waterProps}) {
     const mainCollider = useRef()
     const boatCorner1 = useRef()
@@ -25,6 +17,8 @@ export default function Boat({waterProps}) {
     const boatCorner4 = useRef()
     const body = useRef();
     const thing = useRef();
+
+    const waterHeight = 0;
 
     let time = 0
 
@@ -115,17 +109,12 @@ export default function Boat({waterProps}) {
     function applyWaterBuoyancy(boatCorner,body,elapsedTime,waterProps,depthBeforeSubmerged,displacementAmount){
         const pointPosition = boatCorner.current.translation()
         
-
-        // buoyancy
-        const waveHeight = getWaveheight(pointPosition.x,pointPosition.z,elapsedTime,waterProps)
-        
-        if (pointPosition.y < waveHeight){
-            const displacementMultiplier = Math.max(0, Math.min((waveHeight-pointPosition.y) / depthBeforeSubmerged,1));
+        if (pointPosition.y < waterHeight){
+            const displacementMultiplier = Math.max(0, Math.min((waterHeight-pointPosition.y) / depthBeforeSubmerged,1));
             
             body.current.applyImpulseAtPoint({x:0,y:(displacementMultiplier * displacementAmount),z:0},pointPosition)
 
         }
-        
     }
 
     return (

@@ -21,9 +21,14 @@ root.render(
             shadows
             camera={{
                 fov: 60,
-                near: 0.1,
+                near: 0.4,
                 far: 1000,
                 position: [0, 13, 8],
+            }}
+            gl={{
+                antialias: true,
+                gammaOutput: true,
+                webgl2: true
             }}
         >
             <Experience />
