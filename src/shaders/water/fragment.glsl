@@ -45,7 +45,7 @@
       	diff += displacement.x;
 
       	gl_FragColor.rgb = mix( foamColor, waterColor, step( threshold, diff ) );
-      	gl_FragColor.a = 0.4;
+      	gl_FragColor.a = 0.6;
 
       	#include <tonemapping_fragment>
       	#include <encodings_fragment>

@@ -2,32 +2,17 @@ import { useRef, useEffect } from "react";
 import { useFrame, useThree, useLoader, extend } from "@react-three/fiber";
 import * as THREE from "three";
 
-import waterVertexShader from "./shaders/water/vertex.glsl";
-import waterFragmentShader from "./shaders/water/fragment.glsl";
+import waterVertexShader from "../shaders/water/vertex.glsl";
+import waterFragmentShader from "../shaders/water/fragment.glsl";
 import { shaderMaterial } from "@react-three/drei";
 
 
-const Lake = (props) => {
+const Lake = ({noiseMap, dudvMap, riverModel, waterfallRef, particlesRef}) => {
     
     const { gl, camera, size } = useThree();
     const pixelRatio = window.devicePixelRatio;
     const water = useRef();
     
-    const noiseMap = useLoader(
-        THREE.TextureLoader,
-        "https://i.imgur.com/gPz7iPX.jpg"
-    );
-    const dudvMap = useLoader(
-        THREE.TextureLoader,
-        "https://i.imgur.com/hOIsXiZ.png"
-    );
-    noiseMap.wrapS = noiseMap.wrapT = THREE.RepeatWrapping;
-    noiseMap.minFilter = THREE.NearestFilter;
-    noiseMap.magFilter = THREE.NearestFilter;
-    dudvMap.wrapS = dudvMap.wrapT = THREE.RepeatWrapping;
-    
-    
-
     const waterUniforms = {
         time: {
             value: 0,
@@ -78,8 +63,6 @@ const Lake = (props) => {
     depthMaterial.depthPacking = THREE.RGBADepthPacking;
     depthMaterial.blending = THREE.NoBlending;
     
-    
-    
     const waterMaterial = new THREE.ShaderMaterial(
         {
             defines: {
@@ -103,7 +86,10 @@ const Lake = (props) => {
 
     useFrame(({ gl, scene, camera }, delta) => {
         scene.overrideMaterial = depthMaterial;
+
         water.current.material.visible = false;
+        waterfallRef.current.material.visible = false;
+        particlesRef.current.material.visible = false;
 
         gl.setRenderTarget(renderTarget);
         gl.render(scene, camera);
@@ -112,7 +98,9 @@ const Lake = (props) => {
 
         scene.overrideMaterial = null;
         water.current.material.visible = true;
-
+        waterfallRef.current.material.visible = true;
+        particlesRef.current.material.visible = true;
+        
         waterMaterial.uniforms.time.value += delta / 6;
     });
 
@@ -127,14 +115,22 @@ const Lake = (props) => {
 
     return (
         <>
+            {/* Lake */}
             <mesh
                 ref={water}
                 rotation={[-Math.PI / 2, 0, 0]}
                 position={[0, 0, 0]}
                 material={waterMaterial}
             >
-                <planeGeometry args={[160, 160]} />
+                <planeGeometry args={[210, 210]} />
             </mesh>
+            {/* River */}
+            <mesh
+                geometry={riverModel.geometry}
+                material={waterMaterial}
+                position={riverModel.position}
+                rotation={riverModel.rotation}
+            />
         </>
     );
 };

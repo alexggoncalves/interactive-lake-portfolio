@@ -12,12 +12,12 @@ uniform vec3 bottomLightColor;
 uniform vec3 foamColor;
 uniform float time;
 
-float round( float a ) {
-    return floor( a + 0.5 );
-}
+// float round( float a ) {
+//     return floor( a + 0.5 );
+// }
 
-const float strength = 0.02;
-const float foamThreshold = 0.15;
+const float strength = 0.01;
+const float foamThreshold = 0.03;
 
 void main() {
     vec2 displacement = texture2D( tDudv, vUv + time * 0.1 ).rg;
@@ -30,7 +30,7 @@ void main() {
     color = mix( color, foamColor, step( vUv.y + displacement.y, foamThreshold ) ); // add foam
 
     gl_FragColor.rgb = color;
-    gl_FragColor.a = 1.0;
+    gl_FragColor.a = 0.8;
 
     #include <tonemapping_fragment>
     #include <encodings_fragment>

@@ -1,9 +1,11 @@
 import { useControls } from "leva";
 import { Sky, useGLTF } from "@react-three/drei";
+import { RigidBody } from "@react-three/rapier";
 
 import Boat from "./Boat";
-import Lake from "./Lake";
-import { RigidBody } from "@react-three/rapier";
+import Lake from "./WaterBodies/Lake";
+import Waterfall from "./WaterBodies/Waterfall";
+import WaterBodies from "./WaterBodies/WaterBodies";
 
 export default function World() {
     const waterProps = useControls("Water controls", {
@@ -20,21 +22,22 @@ export default function World() {
     });
 
     const { nodes } = useGLTF("./models/lake_environment.glb");
-    console.log(nodes);
 
     return (
         <>
             <Boat waterProps={waterProps} />
-            <Lake waterProps={waterProps} />
+            
             <Sky
                 distance={450000}
                 sunPosition={[1, 1, 0.1]}
                 inclination={10}
                 azimuth={0.25}
             />
-
-            {/* Pier */}
-            <group scale={0.7} position={[0, 0.8, 0]} rotation={[0, 0.2, 0]}>
+            
+            <group scale={0.7} rotation={[0, 0.2, 0]}>
+                <WaterBodies waterfallModel={nodes.waterfall} riverModel={nodes.river} lakeModel={nodes.lake}/>
+                
+                {/* Pier */}
                 <mesh
                     geometry={nodes.pier.geometry}
                     position={nodes.pier.position}
