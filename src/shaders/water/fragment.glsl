@@ -29,7 +29,7 @@
       	#endif
       }
 
-      const float strength = 1.0;
+      const float strength = 0.8;
 
       void main() {
 

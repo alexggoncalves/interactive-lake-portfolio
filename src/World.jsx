@@ -19,7 +19,7 @@ export default function World() {
         },
         waterColor: "#b2c6d8",
         foamColor: "#6894b7"
-    });
+    },{hide:true});
 
     const { nodes } = useGLTF("./models/lake_environment.glb");
 
@@ -35,7 +35,7 @@ export default function World() {
             />
             
             <group scale={0.7} rotation={[0, 0.2, 0]}>
-                <WaterBodies waterfallModel={nodes.waterfall} riverModel={nodes.river} lakeModel={nodes.lake}/>
+                <WaterBodies waterfallModel={nodes.waterfall}/>
                 
                 {/* Pier */}
                 <mesh
@@ -76,15 +76,17 @@ export default function World() {
                         material={nodes.ramp.material}
                     ></mesh>
                 </RigidBody>
+
                 <RigidBody 
                     type="fixed" 
                     colliders="trimesh" 
-                    friction={1}
-                    restitution={0}                    
+                    friction={0}
+                    restitution={0.5}             
                 >
-                    <mesh visible={false}
+                    <mesh
                         geometry={nodes.barrier.geometry}
                         position={nodes.barrier.position}
+                        material={false}
                     ></mesh>
                 </RigidBody>
             </group>

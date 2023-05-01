@@ -5,10 +5,12 @@ import waterfallVertexShader from "../shaders/waterfall/vertex.glsl";
 import waterfallFragmentShader from "../shaders/waterfall/fragment.glsl";
 
 import WaterParticles from "./WaterParticles";
-import React from "react";
+import React, { useMemo } from "react";
 
 export const Waterfall = React.forwardRef(({ waterfallModel, noiseMap, dudvMap },ref) => {
-    var waterfallUniforms = {
+    
+    
+    const waterfallUniforms = useMemo(()=>({
         time: {
             value: 0,
         },
@@ -33,7 +35,7 @@ export const Waterfall = React.forwardRef(({ waterfallModel, noiseMap, dudvMap }
         foamColor: {
             value: new THREE.Color(0xffffff),
         },
-    };
+    }),[])
 
     var waterfallMaterial = new THREE.ShaderMaterial({
         uniforms: THREE.UniformsUtils.merge([
@@ -46,7 +48,6 @@ export const Waterfall = React.forwardRef(({ waterfallModel, noiseMap, dudvMap }
         transparent: true,
     });
 
-    console.log(waterfallModel);
     waterfallMaterial.uniforms.tNoise.value = noiseMap;
     waterfallMaterial.uniforms.tDudv.value = dudvMap;
 

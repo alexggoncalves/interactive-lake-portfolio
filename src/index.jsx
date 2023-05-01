@@ -4,6 +4,7 @@ import { Canvas } from "@react-three/fiber";
 import { Perf } from "r3f-perf";
 import { KeyboardControls } from "@react-three/drei";
 import Experience from "./Experience";
+import { Leva } from "leva";
 
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 
@@ -21,9 +22,9 @@ root.render(
             shadows
             camera={{
                 fov: 60,
-                near: 0.4,
+                near: 3,
                 far: 1000,
-                position: [0, 13, 8],
+                position: [0, 25, 25],
             }}
             gl={{
                 antialias: true,
@@ -32,7 +33,9 @@ root.render(
             }}
         >
             <Experience />
-            <Perf position="top-left" />
+
+            {/* <Perf position="top-left"/> */}
+            <Leva hidden />
         </Canvas>
     </KeyboardControls>
 );
