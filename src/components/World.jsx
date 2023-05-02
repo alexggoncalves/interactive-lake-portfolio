@@ -2,8 +2,8 @@ import { useControls } from "leva";
 import { Sky, useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 
-import Boat from "./components/Boat";
-import WaterBodies from "./components/WaterBodies/WaterBodies";
+import Boat from "./Boat";
+import WaterBodies from "./WaterBodies/WaterBodies";
 
 export default function World() {
     const waterProps = useControls("Water controls", {

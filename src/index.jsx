@@ -18,6 +18,7 @@ root.render(
         ]}
     >
         <Canvas
+            dpr={[1, 2]}
             flat={true}
             shadows
             camera={{

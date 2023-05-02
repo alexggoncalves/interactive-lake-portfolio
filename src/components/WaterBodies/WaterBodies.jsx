@@ -80,7 +80,7 @@ export default function ({ waterfallModel }) {
 
     return (
         <>
-            <Lake ref={lake} dudvMap={dudvMap} depthTexture={depthTexture} />
+            <Lake ref={lake} dudvMap={dudvMap} depthTexture={depthTexture} size={size}/>
             <Waterfall
                 ref={waterfall}
                 waterfallModel={waterfallModel}

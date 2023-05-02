@@ -74,6 +74,8 @@ export default function Boat() {
 
     useFrame((state, delta) => {
         if (isFocused) {
+            if(body.current.isSleeping) body.current.wakeUp();
+            
             const position = body.current.translation();
             const currentRotation = body.current.rotation();
 
@@ -100,6 +102,7 @@ export default function Boat() {
 
             //
             if (forward) {
+                
                 impulse.z -= impulseStrength * Math.cos(angle);
                 impulse.x -= impulseStrength * Math.sin(angle);
             }

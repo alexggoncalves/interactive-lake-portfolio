@@ -1,8 +1,8 @@
 
 import { Physics, Debug } from "@react-three/rapier"
 
-import World from "./World"
-import Lights from "./Lights"
+import World from "./components/World"
+import Lights from "./components/Lights"
 import { useEffect, useState } from "react"
 import { useThree } from "@react-three/fiber";
 
@@ -29,7 +29,7 @@ export default function Experience() {
     <Physics
       paused={!isFocused}
       gravity={[0,-9.8,0]}
-      allowSleep={true}
+      allowSleep={false}
     >
       {/* <Debug/> */}
       <World/>

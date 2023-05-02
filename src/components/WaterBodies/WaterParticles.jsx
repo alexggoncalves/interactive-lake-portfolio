@@ -13,7 +13,8 @@ const WaterParticles = forwardRef(({noiseMap,position,rotation},ref)=>{
 
     var particleMaterial = new THREE.MeshBasicMaterial({
       color: 0xffffff,
-      alphaMap: noiseMap
+      alphaMap: noiseMap,
+      transparent: true
     });
   
     particleMaterial.onBeforeCompile = function (shader) {
@@ -39,12 +40,16 @@ const WaterParticles = forwardRef(({noiseMap,position,rotation},ref)=>{
     };  
 
     particleSystem.init(particleGeometry, particleMaterial, 250);
-
+    
+   
     useFrame((state,delta)=>{
+      if(ref.current){
+        ref.current.boundingSphere.radius = 7.5
+      }
         emissionTime += delta;
 
         if (emissionTime > nextEmissionTime) {
-          const particlePerSecond = 25;
+          const particlePerSecond = 60;
           const t = 1 / particlePerSecond;
       
           nextEmissionTime = emissionTime + t / 2 + (t / 2) * Math.random();
@@ -52,7 +57,7 @@ const WaterParticles = forwardRef(({noiseMap,position,rotation},ref)=>{
           // emit new particle
       
           const particle = new Particle();
-          particle.position.x = Math.sin(2 * Math.PI * Math.random())*7;
+          particle.position.x = Math.sin(2 * Math.PI * Math.random())*7.5;
           particle.position.y = 0;
           particle.position.z = Math.cos(2 * Math.PI * Math.random());
           particle.lifetime = Math.random() * 0.2 + 1.5;
