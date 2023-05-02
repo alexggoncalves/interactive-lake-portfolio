@@ -11,6 +11,7 @@ class ParticleSystem {
     this.particles = [];
     this.maxParticles = 0;
 
+
     this._needsUpdate = false;
     this._instancedMesh = null;
   }
@@ -40,18 +41,18 @@ class ParticleSystem {
     // prepare geometry
 
     var instancedGeometry = new THREE.InstancedBufferGeometry();
-
+    
     instancedGeometry.setAttribute('position', geometry.getAttribute('position'));
     instancedGeometry.setAttribute('uv', geometry.getAttribute('uv'));
 
     const tAttribute = new THREE.InstancedBufferAttribute(new Float32Array(maxParticles), 1);
     tAttribute.setUsage(THREE.DynamicDrawUsage);
     instancedGeometry.setAttribute('t', tAttribute);
-
+    
     //
 
     this._instancedMesh = new THREE.InstancedMesh(instancedGeometry, material, maxParticles);
-
+    ;
     this.maxParticles = maxParticles;
 
     return this;
@@ -60,9 +61,8 @@ class ParticleSystem {
   update(delta) {
     const particles = this.particles;
     const instancedMesh = this._instancedMesh;
-
+    
     // update particles array
-
     for (let i = particles.length - 1; i >= 0; i--) {
       const particle = particles[i];
       particle._elapsedTime += delta;
@@ -86,8 +86,11 @@ class ParticleSystem {
         dummy.updateMatrix();
 
         instancedMesh.setMatrixAt(i, dummy.matrix);
+        
       }
       instancedMesh.instanceMatrix.needsUpdate = true;
+      instancedMesh.computeBoundingSphere();
+      instancedMesh.geometry.boundingSphere.radius = 7
     }
 
     // rebuild "t" attribute which is used for animation

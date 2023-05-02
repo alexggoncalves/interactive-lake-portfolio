@@ -43,9 +43,7 @@ const WaterParticles = forwardRef(({noiseMap,position,rotation},ref)=>{
     
    
     useFrame((state,delta)=>{
-      if(ref.current){
-        ref.current.boundingSphere.radius = 7.5
-      }
+     
         emissionTime += delta;
 
         if (emissionTime > nextEmissionTime) {
@@ -75,6 +73,7 @@ const WaterParticles = forwardRef(({noiseMap,position,rotation},ref)=>{
       object={particleSystem._instancedMesh}
       position={position}
       rotation={rotation}
+      
     />
 })
 
