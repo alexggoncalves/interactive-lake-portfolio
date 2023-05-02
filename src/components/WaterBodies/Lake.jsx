@@ -26,7 +26,7 @@ const Lake = forwardRef(({ dudvMap, depthTexture }, lake) => {
 
     return (
         <mesh ref={lake} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-            <planeGeometry args={[210, 210]} />
+            <planeGeometry args={[220, 220]} />
             <waterMaterial ref={lakeMaterial} />
         </mesh>
     );

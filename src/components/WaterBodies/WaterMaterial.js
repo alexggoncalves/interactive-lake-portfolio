@@ -1,5 +1,5 @@
-import vertexShader from "../shaders/water/vertex.glsl";
-import fragmentShader from "../shaders/water/fragment.glsl";
+import vertexShader from "../../shaders/water/vertex.glsl";
+import fragmentShader from "../../shaders/water/fragment.glsl";
 
 import * as THREE from "three";
 class WaterMaterial extends THREE.ShaderMaterial {

@@ -2,18 +2,19 @@ import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import { TextureLoader, RepeatWrapping, NearestFilter } from "three";
 import { useMemo, useState, createRef } from "react";
 import { useFBO } from "@react-three/drei";
-import * as THREE from 'three'
-
+import * as THREE from "three";
 
 import Lake from "./Lake";
 import Waterfall from "./Waterfall";
 import WaterParticles from "./WaterParticles";
 
-export default function ({ waterfallModel}) {
-    const { size } = useThree();
+export default function ({ waterfallModel }) {
+    const { size, gl,camera } = useThree();
     const pixelRatio = window.devicePixelRatio;
 
-    const [depthTexture,setDepthTexture] = useState()
+    // gl.preserveDrawingBuffer = true;
+
+    const [depthTexture, setDepthTexture] = useState();
 
     const waterfall = createRef();
     const particles = createRef();
@@ -40,6 +41,9 @@ export default function ({ waterfallModel}) {
             format: THREE.RGBAFormat,
             depthBuffer: true,
             depthTexture: new THREE.DepthTexture(),
+            samples: 8,
+            type: THREE.HalfFloatType,
+            anisotropy: 0
         }
     );
 
@@ -50,37 +54,33 @@ export default function ({ waterfallModel}) {
         return depthMaterial;
     }, []);
 
+    
     useFrame(({ gl, scene, camera }, delta) => {
-            scene.overrideMaterial = depthMaterial;
+        camera.updateProjectionMatrix();
+        scene.overrideMaterial = depthMaterial;
 
-            // Hide meshes to be ignored in the depth map
-            waterfall.current.material.visible = false;
-            particles.current.material.visible = false;
-            lake.current.material.visible = false;
+        // Hide meshes to be ignored in the depth map
+        waterfall.current.material.visible = false;
+        particles.current.material.visible = false;
+        lake.current.material.visible = false;
 
-            // Render depthMap to render target
-            gl.setRenderTarget(renderTarget);
-            gl.render(scene, camera);
-            setDepthTexture(renderTarget.texture)
-            gl.setRenderTarget(null);
+        // Render depthMap to render target
+        gl.setRenderTarget(renderTarget);
+        gl.render(scene, camera);
+        setDepthTexture(renderTarget.texture);
+        gl.setRenderTarget(null);
 
-            scene.overrideMaterial = null;
+        scene.overrideMaterial = null;
 
-            // Show hidden meshes for the default render
-            lake.current.material.visible = true;
-            waterfall.current.material.visible = true;
-            particles.current.material.visible = true;
+        // Show hidden meshes for the default render
+        lake.current.material.visible = true;
+        waterfall.current.material.visible = true;
+        particles.current.material.visible = true;
     });
-
-
 
     return (
         <>
-            <Lake
-                ref={lake}
-                dudvMap={dudvMap}
-                depthTexture={depthTexture}
-            />
+            <Lake ref={lake} dudvMap={dudvMap} depthTexture={depthTexture} />
             <Waterfall
                 ref={waterfall}
                 waterfallModel={waterfallModel}

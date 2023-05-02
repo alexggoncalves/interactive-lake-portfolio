@@ -2,10 +2,8 @@ import { useControls } from "leva";
 import { Sky, useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 
-import Boat from "./Boat";
-import Lake from "./WaterBodies/Lake";
-import Waterfall from "./WaterBodies/Waterfall";
-import WaterBodies from "./WaterBodies/WaterBodies";
+import Boat from "./components/Boat";
+import WaterBodies from "./components/WaterBodies/WaterBodies";
 
 export default function World() {
     const waterProps = useControls("Water controls", {
@@ -19,7 +17,7 @@ export default function World() {
         },
         waterColor: "#b2c6d8",
         foamColor: "#6894b7"
-    },{hide:true});
+    });
 
     const { nodes } = useGLTF("./models/lake_environment.glb");
 

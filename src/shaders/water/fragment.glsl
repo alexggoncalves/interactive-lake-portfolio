@@ -3,7 +3,7 @@
       #include <fog_pars_fragment>
 
       varying vec2 vUv;
-      uniform sampler2D tDepth;
+      uniform highp sampler2D tDepth;
       uniform sampler2D tDudv;
       uniform vec3 waterColor;
       uniform vec3 foamColor;

@@ -1,11 +1,9 @@
 import * as THREE from "three";
-import { useFrame, useLoader } from "@react-three/fiber";
-
-import waterfallVertexShader from "../shaders/waterfall/vertex.glsl";
-import waterfallFragmentShader from "../shaders/waterfall/fragment.glsl";
-
-import WaterParticles from "./WaterParticles";
+import { useFrame } from "@react-three/fiber";
 import React, { useMemo } from "react";
+
+import waterfallVertexShader from "../../shaders/waterfall/vertex.glsl";
+import waterfallFragmentShader from "../../shaders/waterfall/fragment.glsl";
 
 export const Waterfall = React.forwardRef(({ waterfallModel, noiseMap, dudvMap },ref) => {
     

@@ -4,29 +4,30 @@ import { Physics, Debug } from "@react-three/rapier"
 import World from "./World"
 import Lights from "./Lights"
 import { useEffect, useState } from "react"
+import { useThree } from "@react-three/fiber";
 
 
 export default function Experience() {
-  const [paused,setPaused] = useState(false);
+  const [isFocused, setIsFocused] = useState(true);
 
-  useEffect(()=>{
-      const handleVisibilityChange = ()=>{
-        setPaused(document.visibilityState !== 'visible');
-      }
+  useEffect(() => {
+        const handleBlur = () => setIsFocused(false);
+        const handleFocus = () => setIsFocused(true);
 
-      document.addEventListener('visibilitychange', handleVisibilityChange);
-      
+        window.addEventListener("blur", handleBlur);
+        window.addEventListener("focus", handleFocus);
 
-      return ()=>{
-        document.removeEventListener('visibilitychange', handleVisibilityChange);
-      }
-  },[])
+        return () => {
+            window.removeEventListener("blur", handleBlur);
+            window.removeEventListener("focus", handleFocus);
+        };
+    }, []);
 
   return <>
     
 
     <Physics
-      paused={paused}
+      paused={!isFocused}
       gravity={[0,-9.8,0]}
       allowSleep={true}
     >
