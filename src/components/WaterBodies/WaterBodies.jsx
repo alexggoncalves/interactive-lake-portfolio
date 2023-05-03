@@ -8,6 +8,8 @@ import Lake from "./Lake";
 import Waterfall from "./Waterfall";
 import WaterParticles from "./WaterParticles";
 
+const isTouchScreen = "ontouchstart" in window;
+
 export default function ({ waterfallModel }) {
     const { size, gl,camera } = useThree();
     const pixelRatio = window.devicePixelRatio;
@@ -29,6 +31,9 @@ export default function ({ waterfallModel }) {
     noiseMap.minFilter = NearestFilter;
     noiseMap.magFilter = NearestFilter;
     dudvMap.wrapS = dudvMap.wrapT = RepeatWrapping;
+    
+    //!! TEMPORARY
+    const depthTextureType =  isTouchScreen ? THREE.ByteType : THREE.HalfFloatType
 
     const renderTarget = useFBO(
         size.width * pixelRatio,
@@ -42,7 +47,7 @@ export default function ({ waterfallModel }) {
             depthBuffer: true,
             depthTexture: new THREE.DepthTexture(),
             samples: 8,
-            type: THREE.HalfFloatType,
+            type: depthTextureType,
             anisotropy: 0
         }
     );

@@ -5,6 +5,7 @@ import { useKeyboardControls } from "@react-three/drei";
 import { Quaternion } from "three";
 import { useControls } from "leva";
 import * as THREE from "three";
+import useTouchInput from '../stores/useTouchInput'
 
 export default function Boat() {
     // Each corner of the main collider(body) is also a collider.
@@ -18,6 +19,8 @@ export default function Boat() {
 
     const [subscribeKeys, getKeys] = useKeyboardControls();
 
+    const resetTouchInput = useTouchInput((state) => state.resetTouchInput)
+
     // Pause boat movement when the window is out of focus
     const [isFocused, setIsFocused] = useState(true);
     useEffect(() => {
@@ -26,12 +29,13 @@ export default function Boat() {
 
         window.addEventListener("blur", handleBlur);
         window.addEventListener("focus", handleFocus);
-
+        resetTouchInput()
         return () => {
             window.removeEventListener("blur", handleBlur);
             window.removeEventListener("focus", handleFocus);
         };
     }, []);
+
 
     const [angle, setAngle] = useState(0);
     const [smoothCameraPosition] = useState(() => new THREE.Vector3(0, 25, 25));
@@ -51,6 +55,7 @@ export default function Boat() {
             },
         }
     );
+    
 
     // This 
     const applyWaterBuoyancy = (boatCorner) => {
@@ -72,6 +77,11 @@ export default function Boat() {
         }
     };
 
+    const touchForward = useTouchInput((state) => state.forward)
+    const touchBackward = useTouchInput((state) => state.backward)
+    const touchLeftward = useTouchInput((state) => state.leftward)
+    const touchRightward = useTouchInput((state) => state.rightward)
+
     useFrame((state, delta) => {
         if (isFocused) {
             if(body.current.isSleeping) body.current.wakeUp();
@@ -79,8 +89,9 @@ export default function Boat() {
             const position = body.current.translation();
             const currentRotation = body.current.rotation();
 
-            // Get the input states
             const { forward, rightward, backward, leftward } = getKeys();
+            
+            
 
             // Set 
             const impulse = { x: 0, y: 0, z: 0 };
@@ -101,19 +112,19 @@ export default function Boat() {
             setAngle(Math.atan2(currentOrientation.x, currentOrientation.z));
 
             //
-            if (forward) {
+            if (forward || touchForward) {
                 
                 impulse.z -= impulseStrength * Math.cos(angle);
                 impulse.x -= impulseStrength * Math.sin(angle);
             }
-            if (rightward) {
+            if (rightward || touchRightward) {
                 torque.y -= torqueStrength;
             }
-            if (backward) {
+            if (backward || touchBackward) {
                 impulse.z += impulseStrength * Math.cos(angle);
                 impulse.x += impulseStrength * Math.sin(angle);
             }
-            if (leftward) {
+            if (leftward || touchLeftward) {
                 torque.y += torqueStrength;
             }
 

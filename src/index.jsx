@@ -5,8 +5,10 @@ import { Perf } from "r3f-perf";
 import { KeyboardControls } from "@react-three/drei";
 import Experience from "./Experience";
 import { Leva } from "leva";
+import TouchControls from "./components/TouchControls";
 
 const root = ReactDOM.createRoot(document.querySelector("#root"));
+const isTouchScreen = "ontouchstart" in window;
 
 root.render(
     <KeyboardControls
@@ -38,5 +40,7 @@ root.render(
             {/* <Perf position="top-left"/> */}
             <Leva hidden />
         </Canvas>
+        {isTouchScreen && <TouchControls/>}
+        
     </KeyboardControls>
 );

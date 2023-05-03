@@ -16,3 +16,38 @@ body
 canvas {
     touch-action: none;
   }
+
+.touch-controls {
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.buttons {
+    display: flex;
+    padding: 10px;
+}
+
+.buttons.right{
+    flex-direction: column;
+}
+
+.buttons > div {
+    margin: 8px;
+    color: white;
+    padding: 20px;
+    width: 45px;
+    height:45px;
+    border: 2px solid white;
+    border-radius: 5%;
+    text-align: center;
+    line-height: 50px;
+    font-size: 20pt;
+    user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
