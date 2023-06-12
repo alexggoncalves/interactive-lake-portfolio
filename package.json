@@ -9,10 +9,11 @@
     "deploy": "vercel --prod"
   },
   "dependencies": {
+    "@react-three/csg": "^2.2.0",
     "@react-three/drei": "^9.64.0",
     "@react-three/fiber": "^8.9.1",
     "@react-three/rapier": "^0.14.0",
-    "leva": "^0.9.34",
+    "leva": "^0.9.35",
     "nodemon": "^2.0.22",
     "r3f-perf": "^7.1.2",
     "react": "^18.2.0",

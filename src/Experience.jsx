@@ -1,43 +1,39 @@
+import { useEffect, useState, Suspense } from "react";
+import { Physics, Debug } from "@react-three/rapier";
 
-import { Physics, Debug } from "@react-three/rapier"
+import World from "./components/World/World";
+import Lights from "./components/World/Lights";
 
-import World from "./components/World"
-import Lights from "./components/Lights"
-import { useEffect, useState } from "react"
-import { useThree } from "@react-three/fiber";
-
+import useApp from "./stores/useApp";
 
 export default function Experience() {
-  const [isFocused, setIsFocused] = useState(true);
+    const pause = useApp((state) => state.pause);
+    const unpause = useApp((state) => state.unpause);
+    const isPaused = useApp((state) => state.isPaused);
 
-  useEffect(() => {
-        const handleBlur = () => setIsFocused(false);
-        const handleFocus = () => setIsFocused(true);
-
-        window.addEventListener("blur", handleBlur);
-        window.addEventListener("focus", handleFocus);
+    useEffect(() => {
+        window.addEventListener("blur", pause);
+        window.addEventListener("focus", unpause);
 
         return () => {
-            window.removeEventListener("blur", handleBlur);
-            window.removeEventListener("focus", handleFocus);
+            window.removeEventListener("blur", pause);
+            window.removeEventListener("focus", unpause);
         };
     }, []);
 
-  return <>
-    
+    return (
+        <>
+            <Physics
+                paused={isPaused}
+                gravity={[0, -9.8, 0]}
+                // allowSleep={false}
+            >
+                <World />
 
-    <Physics
-      paused={!isFocused}
-      gravity={[0,-9.8,0]}
-      allowSleep={false}
-    >
-      {/* <Debug/> */}
-      <World/>
-      
-    </Physics>
+                {/* <Debug/> */}
+            </Physics>
 
-    <Lights/>
-    
-  </>
+            <Lights />
+        </>
+    );
 }
-//Add a cube to this scene

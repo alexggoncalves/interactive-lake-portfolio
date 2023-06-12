@@ -1,6 +1,6 @@
 import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import { TextureLoader, RepeatWrapping, NearestFilter } from "three";
-import { useMemo, useState, createRef } from "react";
+import { useMemo, useState, createRef, useEffect } from "react";
 import { useFBO } from "@react-three/drei";
 import * as THREE from "three";
 
@@ -8,10 +8,15 @@ import Lake from "./Lake";
 import Waterfall from "./Waterfall";
 import WaterParticles from "./WaterParticles";
 
+import useApp from "../../stores/useApp";
+
 const isTouchScreen = "ontouchstart" in window;
 
-export default function ({ waterfallModel }) {
-    const { size, gl,camera } = useThree();
+export default function WaterBodies({ waterfallModel, boatCutOut ,noiseMap,dudvMap}) {
+    const unpause = useApp((state) => state.unpause)
+    
+
+    const { size, gl, camera } = useThree();
     const pixelRatio = window.devicePixelRatio;
 
     // gl.preserveDrawingBuffer = true;
@@ -22,18 +27,10 @@ export default function ({ waterfallModel }) {
     const particles = createRef();
     const lake = createRef();
 
-    const noiseMap = useLoader(
-        TextureLoader,
-        "https://i.imgur.com/gPz7iPX.jpg"
-    );
-    const dudvMap = useLoader(TextureLoader, "https://i.imgur.com/hOIsXiZ.png");
-    noiseMap.wrapS = noiseMap.wrapT = RepeatWrapping;
-    noiseMap.minFilter = NearestFilter;
-    noiseMap.magFilter = NearestFilter;
-    dudvMap.wrapS = dudvMap.wrapT = RepeatWrapping;
-    
     //!! TEMPORARY
-    const depthTextureType =  isTouchScreen ? THREE.ByteType : THREE.HalfFloatType
+    const depthTextureType = isTouchScreen
+        ? THREE.ByteType
+        : THREE.HalfFloatType;
 
     const renderTarget = useFBO(
         size.width * pixelRatio,
@@ -48,7 +45,7 @@ export default function ({ waterfallModel }) {
             depthTexture: new THREE.DepthTexture(),
             samples: 8,
             type: depthTextureType,
-            anisotropy: 0
+            anisotropy: 0,
         }
     );
 
@@ -59,7 +56,6 @@ export default function ({ waterfallModel }) {
         return depthMaterial;
     }, []);
 
-    
     useFrame(({ gl, scene, camera }, delta) => {
         camera.updateProjectionMatrix();
         scene.overrideMaterial = depthMaterial;
@@ -83,9 +79,19 @@ export default function ({ waterfallModel }) {
         particles.current.material.visible = true;
     });
 
+    useEffect(()=>{
+        unpause()
+    },[])
+
     return (
         <>
-            <Lake ref={lake} dudvMap={dudvMap} depthTexture={depthTexture} size={size}/>
+            <Lake
+                ref={lake}
+                dudvMap={dudvMap}
+                depthTexture={depthTexture}
+                size={size}
+                boatCutOut={boatCutOut}
+            />
             <Waterfall
                 ref={waterfall}
                 waterfallModel={waterfallModel}

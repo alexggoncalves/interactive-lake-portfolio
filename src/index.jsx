@@ -7,6 +7,7 @@ import Experience from "./Experience";
 import { Leva } from "leva";
 import TouchControls from "./components/TouchControls";
 
+
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 const isTouchScreen = "ontouchstart" in window;
 
@@ -32,15 +33,13 @@ root.render(
             gl={{
                 antialias: true,
                 gammaOutput: true,
-                webgl2: true
+                webgl2: true,
             }}
         >
             <Experience />
 
-            {/* <Perf position="top-left"/> */}
-            <Leva hidden />
+            <Perf position="top-left" />
         </Canvas>
-        {isTouchScreen && <TouchControls/>}
-        
+        {isTouchScreen && <TouchControls />}
     </KeyboardControls>
 );
