@@ -23,6 +23,20 @@ export default function Experience() {
         };
     }, []);
 
+    useEffect(() => {
+        const handleTouchMove = (event) => {
+          if (event.touches.length > 1) {
+            event.preventDefault();
+          }
+        };
+    
+        document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    
+        return () => {
+          document.removeEventListener('touchmove', handleTouchMove);
+        };
+      }, []);
+
     return (
         <>
             <World />
