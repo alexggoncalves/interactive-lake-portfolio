@@ -31,8 +31,8 @@ const Lake = forwardRef(({ dudvMap, boatCutOut, boat }, lake) => {
     const csg = useRef();
     const subtraction = useRef();
 
-    const boatPosition = useApp((state) => state.position);
-    const boatRotation = useApp((state) => state.rotation);
+    // const boatPosition = useApp((state) => state.position);
+    // const boatRotation = useApp((state) => state.rotation);
 
     // Create depthBuffer and render target to generate it
     const [depthTexture, setDepthTexture] = useState();
@@ -70,12 +70,14 @@ const Lake = forwardRef(({ dudvMap, boatCutOut, boat }, lake) => {
     }, []);
 
     useFrame(({ gl, scene, camera }, delta) => {
+        // console.log(scene.children[0])
         frameCount.current++;
-        if (frameCount.current % 2 === 0) {
-            subtraction.current.position.copy(boatPosition);
-            subtraction.current.quaternion.copy(boatRotation);
+        if (frameCount.current % 1 === 0) {
+            subtraction.current.position.copy(scene.children[0].position);
+            subtraction.current.quaternion.copy(scene.children[0].quaternion)
+            csg.current.update()
         }
-
+        
         // * Animate water shader
         if (lakeMaterial.current) {
             lakeMaterial.current.uniforms.tDepth.value = depthTexture;
@@ -97,7 +99,7 @@ const Lake = forwardRef(({ dudvMap, boatCutOut, boat }, lake) => {
         // waterfall.current.material.visible = false;
         // particles.current.material.visible = false;
         lake.current.material.visible = false;
-        boat.current.material.visible = false;
+        // boat.current.material.visible = false;
 
         gl.setRenderTarget(renderTarget);
         gl.render(scene, camera);
@@ -111,7 +113,8 @@ const Lake = forwardRef(({ dudvMap, boatCutOut, boat }, lake) => {
         // waterfall.current.material.visible = true;
         // particles.current.material.visible = true;
 
-        boat.current.material.visible = true;
+        // boat.current.material.visible = true;
+        
     });
 
     const lakeGeometry = new PlaneGeometry(252, 252, 1, 1);

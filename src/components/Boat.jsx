@@ -93,10 +93,10 @@ export const Boat = forwardRef(
     
                 const position = body.current.translation();
                 // console.log(position)
-                setPosition(position)
+                // setPosition(position)
     
                 const currentRotation = body.current.rotation();
-                setRotation(currentRotation)
+                // setRotation(currentRotation)
                 
                 const { forward, rightward, backward, leftward } = getKeys();
     
