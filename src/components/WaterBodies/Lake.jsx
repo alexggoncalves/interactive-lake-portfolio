@@ -6,20 +6,14 @@ import {
     useEffect,
     useMemo,
 } from "react";
-import { useFrame, extend, useLoader, useThree } from "@react-three/fiber";
+import { useFrame, extend, useThree } from "@react-three/fiber";
 import { Geometry, Base, Subtraction } from "@react-three/csg";
 import { PlaneGeometry } from "three";
 import { useFBO } from "@react-three/drei";
 import { WaterMaterial } from "./WaterMaterial";
 import * as THREE from "three";
 
-import useApp from "../../stores/useApp";
-
 extend({ WaterMaterial });
-
-import { Suspense } from "react";
-
-import { Loader } from "./../Loader";
 
 const isTouchScreen = "ontouchstart" in window;
 
@@ -63,21 +57,11 @@ const Lake = forwardRef(({ dudvMap, boatCutOut, boat }, lake) => {
         return depthMaterial;
     }, []);
 
-    const frameCount = useRef(0);
-
-    useEffect(() => {
-        frameCount.current = 0;
-    }, []);
-
     useFrame(({ gl, scene, camera }, delta) => {
-        // console.log(scene.children[0])
-        frameCount.current++;
-        if (frameCount.current % 1 === 0) {
-            subtraction.current.position.copy(scene.children[0].position);
-            subtraction.current.quaternion.copy(scene.children[0].quaternion)
-            csg.current.update()
-        }
-        
+        subtraction.current.position.copy(scene.children[0].position);
+        subtraction.current.quaternion.copy(scene.children[0].quaternion);
+        csg.current.update();
+
         // * Animate water shader
         if (lakeMaterial.current) {
             lakeMaterial.current.uniforms.tDepth.value = depthTexture;
@@ -114,14 +98,13 @@ const Lake = forwardRef(({ dudvMap, boatCutOut, boat }, lake) => {
         // particles.current.material.visible = true;
 
         // boat.current.material.visible = true;
-        
     });
 
-    const lakeGeometry = new PlaneGeometry(252, 252, 1, 1);
+    const lakeGeometry = new PlaneGeometry(236, 236, 1, 1);
 
     return (
         <mesh ref={lake}>
-            <Geometry ref={csg} >
+            <Geometry ref={csg}>
                 <Base rotation={[-Math.PI / 2, 0, 0]} geometry={lakeGeometry} />
                 <Subtraction ref={subtraction} geometry={boatCutOut.geometry} />
             </Geometry>

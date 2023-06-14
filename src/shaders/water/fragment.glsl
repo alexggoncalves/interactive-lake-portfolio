@@ -40,12 +40,12 @@
 
       	float diff = saturate( fragmentLinearEyeDepth - linearEyeDepth );
 
-      	vec2 displacement = texture2D( tDudv, ( vUv * 2.0 ) - time * 0.05 ).rg;
+      	vec2 displacement = texture2D( tDudv, ( vUv * 5.0 ) - time * 0.05 ).rg;
       	displacement = ( ( displacement * 2.0 ) - 1.0 ) * strength;
       	diff += displacement.x;
 
       	gl_FragColor.rgb = mix( foamColor, waterColor, step( threshold, diff ) );
-      	gl_FragColor.a = 0.6;
+      	gl_FragColor.a = 0.55;
 
       	#include <tonemapping_fragment>
       	#include <encodings_fragment>

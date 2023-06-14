@@ -6,10 +6,10 @@ import { KeyboardControls } from "@react-three/drei";
 import Experience from "./Experience";
 import { Leva } from "leva";
 import TouchControls from "./components/TouchControls";
-
-
+import Loader from "./components/Loader";
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 const isTouchScreen = "ontouchstart" in window;
+import { Suspense } from "react";
 
 root.render(
     <KeyboardControls
@@ -21,15 +21,15 @@ root.render(
         ]}
     >
         <Canvas
-        // frameloop="demand"
-            dpr={[1,2]}
+            frameloop="demand"
+            dpr={[1, 2]}
             flat={true}
             // shadows
             camera={{
                 fov: 50,
                 near: 2,
                 far: 1000,
-                position: [0, 25, 25],
+                // position: [0, 25, 25],
             }}
             gl={{
                 antialias: true,
@@ -37,10 +37,14 @@ root.render(
                 webgl2: true,
             }}
         >
-            <Experience />
-            <Leva hidden/>
+            <Suspense fallback={null}>
+                <Experience />
+            </Suspense>
+            <Leva hidden />
             {/* <Perf position="top-left" /> */}
         </Canvas>
+        <Loader></Loader> 
+
         {isTouchScreen && <TouchControls />}
     </KeyboardControls>
 );

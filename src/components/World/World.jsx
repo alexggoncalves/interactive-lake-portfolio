@@ -8,6 +8,7 @@ import Boat from "../Boat";
 import WaterBodies from "../WaterBodies/WaterBodies";
 import { useEffect, useRef } from "react";
 import { Suspense } from "react";
+import Loader from "./../Loader";
 
 import useApp from "../../stores/useApp";
 
@@ -18,13 +19,30 @@ export default function World() {
     //     console.log(nodes);
     // }, [nodes]);
     const isPaused = useApp((state) => state.isPaused);
+    const unpause = useApp((state) => state.unpause);
+
+    useEffect(() => {
+        const startButton = document.querySelector(".start-button");
+        const loadingScreen = document.querySelector(".loading-screen");
+        const handleStart = () => {
+            unpause();
+
+            startButton.removeEventListener("click", handleStart);
+            setTimeout(() => loadingScreen.classList.add("hidden"), 0);
+        };
+        startButton.addEventListener("click", handleStart);
+
+        return () => {
+            startButton.removeEventListener("click", handleStart);
+        };
+    }, []);
 
     return (
         <>
             <Physics
                 paused={isPaused}
                 gravity={[0, -9.8, 0]}
-                // allowSleep={false}
+                // allowSleep={true}
             >
                 <Boat
                     ref={boat}
@@ -56,44 +74,43 @@ export default function World() {
                 boatCutOut={nodes.boat_cutout}
                 boat={boat}
             />
-            <Suspense fallback={null}>
-                <group dispose={null}>
-                    <mesh
-                        geometry={nodes.floor.children[0].geometry}
-                        position={nodes.floor.children[0].position}
-                        material={nodes.floor.children[0].material}
-                    />
 
-                    <mesh
-                        geometry={nodes.floor.children[1].geometry}
-                        position={nodes.floor.children[1].position}
-                        material={nodes.floor.children[1].material}
-                    />
+            <group dispose={null}>
+                <mesh
+                    geometry={nodes.floor.children[0].geometry}
+                    position={nodes.floor.children[0].position}
+                    material={nodes.floor.children[0].material}
+                />
 
-                    <mesh
-                        geometry={nodes.cliff_1.geometry}
-                        position={nodes.cliff_1.position}
-                        material={nodes.cliff_1.material}
-                    ></mesh>
+                <mesh
+                    geometry={nodes.floor.children[1].geometry}
+                    position={nodes.floor.children[1].position}
+                    material={nodes.floor.children[1].material}
+                />
 
-                    <mesh
-                        geometry={nodes.cliff_2.geometry}
-                        position={nodes.cliff_2.position}
-                        material={nodes.cliff_2.material}
-                    ></mesh>
+                <mesh
+                    geometry={nodes.cliff_1.geometry}
+                    position={nodes.cliff_1.position}
+                    material={nodes.cliff_1.material}
+                ></mesh>
 
-                    <mesh
-                        geometry={nodes.plaque.geometry}
-                        position={nodes.plaque.position}
-                        material={nodes.plaque.material}
-                    ></mesh>
-                    <mesh
-                        geometry={nodes.water_block.geometry}
-                        position={nodes.water_block.position}
-                        material={nodes.water_block.material}
-                    ></mesh>
-                </group>
-            </Suspense>
+                <mesh
+                    geometry={nodes.cliff_2.geometry}
+                    position={nodes.cliff_2.position}
+                    material={nodes.cliff_2.material}
+                ></mesh>
+
+                <mesh
+                    geometry={nodes.plaque.geometry}
+                    position={nodes.plaque.position}
+                    material={nodes.plaque.material}
+                ></mesh>
+                <mesh
+                    geometry={nodes.water_block.geometry}
+                    position={nodes.water_block.position}
+                    material={nodes.water_block.material}
+                ></mesh>
+            </group>
         </>
     );
 }

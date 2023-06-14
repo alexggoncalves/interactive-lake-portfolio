@@ -35,12 +35,15 @@ export default function WaterBodies({ waterfallModel, boatCutOut , boat}) {
                 noiseMap={noiseMap}
                 dudvMap={dudvMap}
             />
-            {/* <WaterParticles
+            <WaterParticles
                 ref={particles}
                 noiseMap={noiseMap}
                 position={waterfallModel.position}
                 rotation={waterfallModel.rotation}
-            /> */}
+            />
         </>
     );
 }
+
+useTexture.preload("https://i.imgur.com/gPz7iPX.jpg")
+useTexture.preload("https://i.imgur.com/hOIsXiZ.png")
