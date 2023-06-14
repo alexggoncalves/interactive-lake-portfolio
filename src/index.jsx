@@ -21,13 +21,14 @@ root.render(
         ]}
     >
         <Canvas
-            dpr={[1, 2]}
+        // frameloop="demand"
+            dpr={[1,2]}
             flat={true}
-            shadows
+            // shadows
             camera={{
-                fov: 60,
-                near: 1,
-                far: 500,
+                fov: 50,
+                near: 2,
+                far: 1000,
                 position: [0, 25, 25],
             }}
             gl={{
@@ -37,8 +38,8 @@ root.render(
             }}
         >
             <Experience />
-
-            <Perf position="top-left" />
+            <Leva hidden/>
+            {/* <Perf position="top-left" /> */}
         </Canvas>
         {isTouchScreen && <TouchControls />}
     </KeyboardControls>

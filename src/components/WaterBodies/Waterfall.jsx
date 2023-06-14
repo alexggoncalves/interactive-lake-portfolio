@@ -16,19 +16,21 @@ export const Waterfall = React.forwardRef(
         }, [waterfallMaterial.current]);
 
         useFrame((state, delta) => {
-                waterfallMaterial.current.uniforms.time.value += delta / 3;
+            waterfallMaterial.current.uniforms.time.value += delta / 3;
         });
 
         return (
             <>
-                <mesh
-                    ref={ref}
-                    geometry={waterfallModel.geometry}
-                    position={waterfallModel.position}
-                    rotation={waterfallModel.rotation}
-                >
-                    <waterfallMaterial ref={waterfallMaterial} />
-                </mesh>
+                
+                    <mesh
+                        ref={ref}
+                        geometry={waterfallModel.geometry}
+                        position={waterfallModel.position}
+                        rotation={waterfallModel.rotation}
+                    >
+                        <waterfallMaterial ref={waterfallMaterial} />
+                    </mesh>
+                
             </>
         );
     }

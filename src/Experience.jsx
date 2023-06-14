@@ -1,15 +1,17 @@
 import { useEffect, useState, Suspense } from "react";
 import { Physics, Debug } from "@react-three/rapier";
+import { useTexture } from "@react-three/drei";
 
 import World from "./components/World/World";
 import Lights from "./components/World/Lights";
 
 import useApp from "./stores/useApp";
 
+import { Loader } from "./components/Loader";
+
 export default function Experience() {
     const pause = useApp((state) => state.pause);
     const unpause = useApp((state) => state.unpause);
-    const isPaused = useApp((state) => state.isPaused);
 
     useEffect(() => {
         window.addEventListener("blur", pause);
@@ -23,17 +25,9 @@ export default function Experience() {
 
     return (
         <>
-            <Physics
-                paused={isPaused}
-                gravity={[0, -9.8, 0]}
-                // allowSleep={false}
-            >
-                <World />
-
-                {/* <Debug/> */}
-            </Physics>
-
+            <World />
             <Lights />
+            <Loader />
         </>
     );
 }

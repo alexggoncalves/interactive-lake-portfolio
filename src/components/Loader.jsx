@@ -11,7 +11,10 @@ export function Loader() {
     const { active, progress, errors, item, loaded, total } = useProgress();
 
     useEffect(()=>{
-        if(progress == 100) unpause()
+        if(progress == 100){
+            unpause()
+            
+        } 
         console.log(progress)
     },[progress])
 

@@ -46,13 +46,13 @@ const WaterParticles = forwardRef(({ noiseMap, position, rotation }, ref) => {
         );
     };
 
-    particleSystem.init(particleGeometry, particleMaterial, 250);
+    particleSystem.init(particleGeometry, particleMaterial, 200);
 
     useFrame((state, delta) => {
         emissionTime += delta;
 
         if (emissionTime > nextEmissionTime) {
-            const particlePerSecond = 60;
+            const particlePerSecond = 20;
             const t = 1 / particlePerSecond;
 
             nextEmissionTime = emissionTime + t / 2 + (t / 2) * Math.random();
