@@ -28,11 +28,11 @@ root.render(
             camera={{
                 fov: 50,
                 near: 2,
-                far: 1000,
-                // position: [0, 25, 25],
+                far: 2000,
+                // position: [1, 1, 1],
             }}
             gl={{
-                antialias: true,
+                // antialias: true,
                 gammaOutput: true,
                 webgl2: true,
             }}

@@ -1,34 +1,35 @@
-import { useControls } from "leva";
-import { useGLTF, useTexture } from "@react-three/drei";
+import { PivotControls, useGLTF } from "@react-three/drei";
 import { RigidBody, Physics, Debug } from "@react-three/rapier";
-import { useFrame, useLoader, useThree } from "@react-three/fiber";
-import { TextureLoader, RepeatWrapping, NearestFilter } from "three";
-
+import { useFrame } from "@react-three/fiber";
 import Boat from "../Boat";
 import WaterBodies from "../WaterBodies/WaterBodies";
 import { useEffect, useRef } from "react";
-import { Suspense } from "react";
-import Loader from "./../Loader";
 
 import useApp from "../../stores/useApp";
+import CameraControls from "../CameraControls";
+import MainTitle from "./MainTitle";
 
 export default function World() {
     const boat = useRef();
+    const pivot = useRef()
+    
     const { nodes } = useGLTF("./models/river_environment.glb");
     // useEffect(() => {
     //     console.log(nodes);
     // }, [nodes]);
+
     const isPaused = useApp((state) => state.isPaused);
     const unpause = useApp((state) => state.unpause);
 
     useEffect(() => {
         const startButton = document.querySelector(".start-button");
         const loadingScreen = document.querySelector(".loading-screen");
+
         const handleStart = () => {
             unpause();
 
             startButton.removeEventListener("click", handleStart);
-            setTimeout(() => loadingScreen.classList.add("hidden"), 0);
+            loadingScreen.classList.add("hidden");
         };
         startButton.addEventListener("click", handleStart);
 
@@ -36,17 +37,23 @@ export default function World() {
             startButton.removeEventListener("click", handleStart);
         };
     }, []);
+    useFrame(() => {
+        if (pivot.current) {
+            console.log(pivot.current.position);
+        }
+    });
+
 
     return (
         <>
+            <CameraControls />
             <Physics
                 paused={isPaused}
                 gravity={[0, -9.8, 0]}
-                // allowSleep={true}
             >
                 <Boat
                     ref={boat}
-                    position={nodes.spawn_point.position}
+                    initialPosition={nodes.spawn_point.position}
                     boatModel={nodes.boat}
                 />
 
@@ -74,6 +81,15 @@ export default function World() {
                 boatCutOut={nodes.boat_cutout}
                 boat={boat}
             />
+
+            {/* <PivotControls
+            ref={pivot}
+                depthTest={false}
+                scale={5}
+                offset={[-30, 0, 80]} 
+            >*/}
+                <MainTitle text={'Alex\nGonçalves'}></MainTitle>
+            {/* </PivotControls> */}
 
             <group dispose={null}>
                 <mesh
@@ -109,6 +125,40 @@ export default function World() {
                     geometry={nodes.water_block.geometry}
                     position={nodes.water_block.position}
                     material={nodes.water_block.material}
+                ></mesh>
+
+                {/* Pier */}
+                <mesh
+                    geometry={nodes.pier_boards.geometry}
+                    position={nodes.pier_boards.position}
+                    material={nodes.pier_boards.material}
+                    rotation={nodes.pier_boards.rotation}
+                ></mesh>
+                <mesh
+                    geometry={nodes.pier_pillars.geometry}
+                    position={nodes.pier_pillars.position}
+                    material={nodes.pier_pillars.material}
+                    rotation={nodes.pier_boards.rotation}
+                ></mesh>
+
+                {/* Bridge */}
+                <mesh
+                    geometry={nodes.bridge_boards.geometry}
+                    position={nodes.bridge_boards.position}
+                    material={nodes.bridge_boards.material}
+                    rotation={nodes.bridge_boards.rotation}
+                ></mesh>
+                <mesh
+                    geometry={nodes.bridge_pillars.geometry}
+                    position={nodes.bridge_pillars.position}
+                    material={nodes.bridge_pillars.material}
+                    rotation={nodes.bridge_pillars.rotation}
+                ></mesh>
+                <mesh
+                    geometry={nodes.bridge_ropes.geometry}
+                    position={nodes.bridge_ropes.position}
+                    material={nodes.bridge_ropes.material}
+                    rotation={nodes.bridge_ropes.rotation}
                 ></mesh>
             </group>
         </>

@@ -100,7 +100,7 @@ const Lake = forwardRef(({ dudvMap, boatCutOut, boat }, lake) => {
         // boat.current.material.visible = true;
     });
 
-    const lakeGeometry = new PlaneGeometry(236, 236, 1, 1);
+    const lakeGeometry = new PlaneGeometry(242, 242, 1, 1);
 
     return (
         <mesh ref={lake}>

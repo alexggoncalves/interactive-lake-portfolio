@@ -1,6 +1,6 @@
-import { useEffect, useState, Suspense } from "react";
-import { Physics, Debug } from "@react-three/rapier";
-import { useTexture } from "@react-three/drei";
+import { useEffect } from "react";
+
+import { Environment } from "@react-three/drei";
 
 import World from "./components/World/World";
 import Lights from "./components/World/Lights";
@@ -35,7 +35,10 @@ export default function Experience() {
     return (
         <>
             <World />
-            <Lights />
+            {/* <Environment 
+                preset="sunset"
+            /> */}
+            <Lights/>
         </>
     );
 }

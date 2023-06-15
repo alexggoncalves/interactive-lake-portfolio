@@ -11,7 +11,7 @@ import useApp from "../stores/useApp";
 // import BoatTrail from "./BoatTrail";
 
 export const Boat = forwardRef(
-    ({ position, boatModel },ref) => {
+    ({ initialPosition, boatModel },ref) => {
         const isPaused = useApp((state) => state.isPaused)
     
         const [subscribeKeys, getKeys] = useKeyboardControls();
@@ -37,10 +37,7 @@ export const Boat = forwardRef(
             boatModel.geometry.boundingBox.min.z;
     
         const [angle, setAngle] = useState(0);
-        
-        const [smoothCameraPosition, setSmoothCameraPosition ] = useState(new THREE.Vector3(0, 25, 25));
-        const [smoothCameraTarget, setSmoothCameraTarget] = useState(new THREE.Vector3(position.x,0.5,position.y));
-    
+
         // Debug
         const { depthBeforeSubmerged, displacementAmount } = useControls(
             "Boat Controls",
@@ -79,19 +76,11 @@ export const Boat = forwardRef(
         const touchRightward = useTouchInput((state) => state.rightward);
     
         const targetOrientation = new THREE.Vector3(0, 0, 1);
-        let cameraPosition = new THREE.Vector3(position.x, 25, position.z + 25);
-        let cameraTarget = new THREE.Vector3(position.x, 0.5,position.z);
 
-
-        useFrame((state, delta) => {
+        useFrame(({camera}, delta) => {
             
             if (!isPaused) {
                 if (body.current.isSleeping) body.current.wakeUp();
-    
-                const position = body.current.translation();
-    
-                const currentRotation = body.current.rotation();
-                
                 const { forward, rightward, backward, leftward } = getKeys();
     
                 const impulse = { x: 0, y: 0, z: 0 };
@@ -100,8 +89,9 @@ export const Boat = forwardRef(
                 const torqueStrength = 100 * delta;
     
                 // Set the orientation angle
-                const currentOrientation =
-                    targetOrientation.applyQuaternion(currentRotation);
+                const currentRotation = body.current.rotation();
+                const currentOrientation = targetOrientation.applyQuaternion(currentRotation);
+                     
                 setAngle(Math.atan2(currentOrientation.x, currentOrientation.z));
                 
                 if (forward || touchForward) {
@@ -128,23 +118,13 @@ export const Boat = forwardRef(
                 applyWaterBuoyancy(boatCorner2.current);
                 applyWaterBuoyancy(boatCorner3.current);
                 applyWaterBuoyancy(boatCorner4.current);
-    
-                // Move camera
                 
-                cameraPosition.copy(position);
-                cameraPosition.z += 25;
-                cameraPosition.y = 25;
-    
-                cameraTarget.copy(position);
-                cameraTarget.y = 0.5;
-    
-                smoothCameraPosition.lerp(cameraPosition, 5 * delta);
-                smoothCameraTarget.lerp(cameraTarget, 5 * delta);
-    
-                state.camera.position.copy(cameraPosition);
-                state.camera.lookAt(cameraTarget);
             }
         });
+        
+        useEffect(()=>{
+
+        },[])
         
         return (
             <>
@@ -154,10 +134,10 @@ export const Boat = forwardRef(
                     friction={1}
                     angularDamping={1.5}
                     linearDamping={1}
-                    position={position}
+                    position={initialPosition}
                     gravityScale={1}
                     colliders={false}
-                    
+                    name="boat"
                 >
                     {/* Main Body Collider */}
                     <CuboidCollider
