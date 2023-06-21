@@ -1,15 +1,9 @@
-import { Html, useProgress } from "@react-three/drei";
+import { useProgress } from "@react-three/drei";
+import { useEffect, useState } from "react";
 
-import useApp from "../stores/useApp";
-import { useEffect, useRef, useState } from "react";
-import { useFrame } from "@react-three/fiber";
-
-export default function Loader() {
+export default function LoadingScreen() {
     const { active, progress, errors, item, loaded, total } = useProgress();
     const loadingBarFill = document.querySelector(".loading-bar-fill");
-    const loadingScreen = document.querySelector(".loading-screen");
-
-    const [smoothProgress, setSmoothProgress] = useState(0);
 
     useEffect(() => {
         if (progress === 100) {
@@ -23,7 +17,7 @@ export default function Loader() {
     return (
         <div className="loading-screen">
             <div className="loading-screen-text">
-                <div>hi</div>
+                <div>[under_construction]</div>
             </div>
 
             <div className="loading-bar">

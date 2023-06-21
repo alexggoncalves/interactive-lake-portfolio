@@ -53,7 +53,7 @@ function MainTitle({ text }) {
                     size={1.0}
                     position={[0.2,-5.3,0]}
                 >
-                    PORTFOLIO
+                    CREATIVE DEVELOPER
                 </Text3D>
             </Center>
         </Float>

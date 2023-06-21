@@ -3,13 +3,15 @@ import ReactDOM from "react-dom/client";
 import { Canvas } from "@react-three/fiber";
 import { Perf } from "r3f-perf";
 import { KeyboardControls } from "@react-three/drei";
-import Experience from "./Experience";
+import { Suspense } from "react";
 import { Leva } from "leva";
+
+import Experience from "./Experience";
 import TouchControls from "./components/TouchControls";
-import Loader from "./components/Loader";
+import LoadingScreen from "./components/LoadingScreen";
+
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 const isTouchScreen = "ontouchstart" in window;
-import { Suspense } from "react";
 
 root.render(
     <KeyboardControls
@@ -43,7 +45,7 @@ root.render(
             <Leva hidden />
             {/* <Perf position="top-left" /> */}
         </Canvas>
-        <Loader></Loader> 
+        <LoadingScreen></LoadingScreen> 
 
         {isTouchScreen && <TouchControls />}
     </KeyboardControls>

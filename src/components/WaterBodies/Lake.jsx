@@ -1,17 +1,20 @@
-import {
-    useRef,
-    forwardRef,
-    useState,
-    createRef,
-    useEffect,
-    useMemo,
-} from "react";
+import { useRef, forwardRef, useState, useMemo } from "react";
 import { useFrame, extend, useThree } from "@react-three/fiber";
 import { Geometry, Base, Subtraction } from "@react-three/csg";
-import { PlaneGeometry } from "three";
+import {
+    HalfFloatType,
+    ByteType,
+    NoBlending,
+    PlaneGeometry,
+    NearestFilter,
+    RGBAFormat,
+    DepthTexture,
+    MeshDepthMaterial,
+    RGBADepthPacking,
+} from "three";
 import { useFBO } from "@react-three/drei";
+
 import { WaterMaterial } from "./WaterMaterial";
-import * as THREE from "three";
 
 extend({ WaterMaterial });
 
@@ -25,39 +28,35 @@ const Lake = forwardRef(({ dudvMap, boatCutOut, boat }, lake) => {
     const csg = useRef();
     const subtraction = useRef();
 
-    // const boatPosition = useApp((state) => state.position);
-    // const boatRotation = useApp((state) => state.rotation);
-
     // Create depthBuffer and render target to generate it
     const [depthTexture, setDepthTexture] = useState();
-    const depthTextureType = isTouchScreen
-        ? THREE.ByteType
-        : THREE.HalfFloatType;
+    const depthTextureType = isTouchScreen ? ByteType : HalfFloatType;
 
     const renderTarget = useFBO(
         size.width * pixelRatio,
         size.height * pixelRatio,
         {
-            minFilter: THREE.NearestFilter,
-            magFilter: THREE.NearestFilter,
+            minFilter: NearestFilter,
+            magFilter: NearestFilter,
             generateMipmaps: false,
             stencilBuffer: false,
-            format: THREE.RGBAFormat,
+            format: RGBAFormat,
             depthBuffer: true,
-            depthTexture: new THREE.DepthTexture(),
+            depthTexture: new DepthTexture(),
             samples: 1,
             type: depthTextureType,
             anisotropy: 0,
         }
     );
     const depthMaterial = useMemo(() => {
-        const depthMaterial = new THREE.MeshDepthMaterial();
-        depthMaterial.depthPacking = THREE.RGBADepthPacking;
-        depthMaterial.blending = THREE.NoBlending;
+        const depthMaterial = new MeshDepthMaterial();
+        depthMaterial.depthPacking = RGBADepthPacking;
+        depthMaterial.blending = NoBlending;
         return depthMaterial;
     }, []);
 
     useFrame(({ gl, scene, camera }, delta) => {
+        // * Move and rotate the cutout with the boat
         subtraction.current.position.copy(scene.children[0].position);
         subtraction.current.quaternion.copy(scene.children[0].quaternion);
         csg.current.update();

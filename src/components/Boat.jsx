@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber";
-import { RigidBody, CuboidCollider, ConvexHullCollider} from "@react-three/rapier";
+import { RigidBody, CuboidCollider, ConvexHullCollider, interactionGroups} from "@react-three/rapier";
 import { useEffect, useRef, useState, forwardRef } from "react";
 import { useKeyboardControls, Trail, useTrail, Line } from "@react-three/drei";
 import { Quaternion } from "three";
@@ -122,10 +122,6 @@ export const Boat = forwardRef(
             }
         });
         
-        useEffect(()=>{
-
-        },[])
-        
         return (
             <>
                 <RigidBody
@@ -136,14 +132,15 @@ export const Boat = forwardRef(
                     linearDamping={1}
                     position={initialPosition}
                     gravityScale={1}
-                    colliders={false}
+                    colliders={"hull"}
                     name="boat"
+                    collisionGroups={interactionGroups(0,[1,2])}
                 >
                     {/* Main Body Collider */}
-                    <CuboidCollider
+                    {/* <CuboidCollider
                         mass={10}
                         args={[boatWidth / 2, boatHeight / 2, boatDepth / 2]}
-                    />
+                    /> */}
     
                     {/* Floaters */}
                     <CuboidCollider

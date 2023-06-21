@@ -1,18 +1,19 @@
 import { PivotControls, useGLTF } from "@react-three/drei";
-import { RigidBody, Physics, Debug } from "@react-three/rapier";
+import { RigidBody, Physics, Debug, interactionGroups } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
-import Boat from "../Boat";
-import WaterBodies from "../WaterBodies/WaterBodies";
 import { useEffect, useRef } from "react";
 
 import useApp from "../../stores/useApp";
 import CameraControls from "../CameraControls";
 import MainTitle from "./MainTitle";
+import Boat from "../Boat";
+import WaterBodies from "../WaterBodies/WaterBodies";
+import Boards from "./Boards";
 
 export default function World() {
     const boat = useRef();
-    const pivot = useRef()
-    
+    const pivot = useRef();
+
     const { nodes } = useGLTF("./models/river_environment.glb");
     // useEffect(() => {
     //     console.log(nodes);
@@ -43,14 +44,10 @@ export default function World() {
         }
     });
 
-
     return (
         <>
             <CameraControls />
-            <Physics
-                paused={isPaused}
-                gravity={[0, -9.8, 0]}
-            >
+            <Physics paused={isPaused} gravity={[0, -9.8, 0]}>
                 <Boat
                     ref={boat}
                     initialPosition={nodes.spawn_point.position}
@@ -63,6 +60,7 @@ export default function World() {
                     colliders="trimesh"
                     friction={0}
                     restitution={1}
+                    collisionGroups={interactionGroups(1,0)}
                 >
                     <mesh
                         geometry={nodes.barrier.geometry}
@@ -70,6 +68,8 @@ export default function World() {
                         material={false}
                     ></mesh>
                 </RigidBody>
+
+                <Boards nodes={nodes}></Boards>
 
                 {/* <Debug /> */}
             </Physics>
@@ -88,7 +88,7 @@ export default function World() {
                 scale={5}
                 offset={[-30, 0, 80]} 
             >*/}
-                <MainTitle text={'Alex\nGonçalves'}></MainTitle>
+            <MainTitle text={"Alex\nGonçalves"}></MainTitle>
             {/* </PivotControls> */}
 
             <group dispose={null}>
@@ -97,7 +97,6 @@ export default function World() {
                     position={nodes.floor.children[0].position}
                     material={nodes.floor.children[0].material}
                 />
-
                 <mesh
                     geometry={nodes.floor.children[1].geometry}
                     position={nodes.floor.children[1].position}
@@ -117,14 +116,28 @@ export default function World() {
                 ></mesh>
 
                 <mesh
+                    geometry={nodes.water_block.geometry}
+                    position={nodes.water_block.position}
+                    material={nodes.water_block.material}
+                ></mesh>
+
+                {/* Plaque */}
+                <mesh
                     geometry={nodes.plaque.geometry}
                     position={nodes.plaque.position}
                     material={nodes.plaque.material}
                 ></mesh>
                 <mesh
-                    geometry={nodes.water_block.geometry}
-                    position={nodes.water_block.position}
-                    material={nodes.water_block.material}
+                    geometry={nodes.plaque_text_1.geometry}
+                    position={nodes.plaque_text_1.position}
+                    material={nodes.plaque_text_1.material}
+                    rotation={nodes.plaque_text_1.rotation}
+                ></mesh>
+                <mesh
+                    geometry={nodes.plaque_text_2.geometry}
+                    position={nodes.plaque_text_2.position}
+                    material={nodes.plaque_text_2.material}
+                    rotation={nodes.plaque_text_2.rotation}
                 ></mesh>
 
                 {/* Pier */}
@@ -160,6 +173,21 @@ export default function World() {
                     material={nodes.bridge_ropes.material}
                     rotation={nodes.bridge_ropes.rotation}
                 ></mesh>
+
+                {/* Fire pit */}
+                <mesh
+                    geometry={nodes.firepit_base.geometry}
+                    position={nodes.firepit_base.position}
+                    material={nodes.firepit_base.material}
+                    rotation={nodes.firepit_base.rotation}
+                ></mesh>
+                <mesh
+                    geometry={nodes.firepit_top.geometry}
+                    position={nodes.firepit_top.position}
+                    material={nodes.firepit_top.material}
+                    rotation={nodes.firepit_top.rotation}
+                ></mesh>
+                
             </group>
         </>
     );
