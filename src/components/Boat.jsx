@@ -132,15 +132,16 @@ export const Boat = forwardRef(
                     linearDamping={1}
                     position={initialPosition}
                     gravityScale={1}
-                    colliders={"hull"}
+                    // colliders={"hull"}
+                    colliders={false}
                     name="boat"
                     collisionGroups={interactionGroups(0,[1,2])}
                 >
                     {/* Main Body Collider */}
-                    {/* <CuboidCollider
+                    <CuboidCollider
                         mass={10}
                         args={[boatWidth / 2, boatHeight / 2, boatDepth / 2]}
-                    /> */}
+                    />
     
                     {/* Floaters */}
                     <CuboidCollider

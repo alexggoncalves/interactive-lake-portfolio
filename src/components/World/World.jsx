@@ -1,5 +1,10 @@
 import { PivotControls, useGLTF } from "@react-three/drei";
-import { RigidBody, Physics, Debug, interactionGroups } from "@react-three/rapier";
+import {
+    RigidBody,
+    Physics,
+    Debug,
+    interactionGroups,
+} from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 
@@ -46,9 +51,10 @@ export default function World() {
 
     return (
         <>
-            <CameraControls />
-            <Physics paused={isPaused} gravity={[0, -9.8, 0]}>
+            <CameraControls initialPosition={nodes.spawn_point.position} />
+            <Physics timeStep={1/200}  paused={isPaused} gravity={[0, -9.8, 0]}>
                 <Boat
+                    
                     ref={boat}
                     initialPosition={nodes.spawn_point.position}
                     boatModel={nodes.boat}
@@ -60,7 +66,7 @@ export default function World() {
                     colliders="trimesh"
                     friction={0}
                     restitution={1}
-                    collisionGroups={interactionGroups(1,0)}
+                    collisionGroups={interactionGroups(1, 0)}
                 >
                     <mesh
                         geometry={nodes.barrier.geometry}
@@ -88,7 +94,7 @@ export default function World() {
                 scale={5}
                 offset={[-30, 0, 80]} 
             >*/}
-            <MainTitle text={"Alex\nGonçalves"}></MainTitle>
+            {/* <MainTitle text={"Luís\nGonçalves"}></MainTitle> */}
             {/* </PivotControls> */}
 
             <group dispose={null}>
@@ -187,7 +193,6 @@ export default function World() {
                     material={nodes.firepit_top.material}
                     rotation={nodes.firepit_top.rotation}
                 ></mesh>
-                
             </group>
         </>
     );

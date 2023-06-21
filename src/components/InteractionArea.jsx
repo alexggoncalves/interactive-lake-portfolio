@@ -27,7 +27,6 @@ const InteractionArea = ({ position, rotation, link }) => {
     const handleIntersectionEnter = () => {
         setCameraTarget(position);
         setCameraPosition(cameraPositionOnEnter);
-        console.log("aa");
     };
     const handleIntersectionExit = () => {
         clearCameraTarget();
@@ -43,10 +42,10 @@ const InteractionArea = ({ position, rotation, link }) => {
             onIntersectionEnter={handleIntersectionEnter}
             onIntersectionExit={handleIntersectionExit}
             collisionGroups={interactionGroups(2, 0)}
-            // visible={false}
+            colliders="ball"
         >
-            <mesh  ref={area} rotation={[-Math.PI / 2, 0, 0]}>
-                <boxGeometry args={[15, 12, 10]} />
+            <mesh ref={area} rotation={[-Math.PI / 2, 0, 0]}>
+                <sphereGeometry args={[10,8,8]} />
                 <meshBasicMaterial color="#white" visible={false}/>
             </mesh>
         </RigidBody>
