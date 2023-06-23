@@ -102,7 +102,7 @@ const Lake = forwardRef(({ dudvMap, boatCutOut, boat }, lake) => {
     const lakeGeometry = new PlaneGeometry(242, 242, 1, 1);
 
     return (
-        <mesh ref={lake}>
+        <mesh ref={lake} receiveShadow>
             <Geometry ref={csg}>
                 <Base rotation={[-Math.PI / 2, 0, 0]} geometry={lakeGeometry} />
                 <Subtraction ref={subtraction} geometry={boatCutOut.geometry} />

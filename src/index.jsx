@@ -2,7 +2,7 @@ import "./style.css";
 import ReactDOM from "react-dom/client";
 import { Canvas } from "@react-three/fiber";
 import { Perf } from "r3f-perf";
-import { KeyboardControls } from "@react-three/drei";
+import { KeyboardControls, Shadow } from "@react-three/drei";
 import { Suspense } from "react";
 import { Leva } from "leva";
 
@@ -24,17 +24,17 @@ root.render(
     >
         <Canvas
             dpr={[1, 2]}
+            shadows
             flat={true}
-            // shadows
             camera={{
                 fov: 50,
                 near: 2,
-                far: 2000
+                far: 2000,
             }}
             gl={{
-                // antialias: true,
+                antialias: true,
                 gammaOutput: true,
-                webgl2: true,
+                webgl2: true
             }}
         >
             <Suspense fallback={null}>
@@ -42,9 +42,10 @@ root.render(
             </Suspense>
             <Leva hidden />
             {/* <Perf position="top-left" /> */}
+            <Shadow ></Shadow>
         </Canvas>
 
-        <LoadingScreen></LoadingScreen> 
+        <LoadingScreen></LoadingScreen>
 
         {isTouchScreen && <TouchControls />}
     </KeyboardControls>

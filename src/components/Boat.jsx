@@ -136,6 +136,7 @@ export const Boat = forwardRef(
                     colliders={false}
                     name="boat"
                     collisionGroups={interactionGroups(0,[1,2])}
+                    
                 >
                     {/* Main Body Collider */}
                     <CuboidCollider
@@ -170,8 +171,8 @@ export const Boat = forwardRef(
                     />
     
                     {/* Boat Mesh */}
-                    <mesh ref={ref} geometry={boatModel.geometry}>
-                        <meshStandardMaterial color="BurlyWood" />
+                    <mesh castShadow receiveShadow ref={ref} geometry={boatModel.geometry}>
+                        <meshStandardMaterial attach="material" color="BurlyWood" />
                     </mesh>
                 </RigidBody>
     

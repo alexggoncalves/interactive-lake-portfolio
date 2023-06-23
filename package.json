@@ -9,6 +9,7 @@
     "deploy": "vercel --prod"
   },
   "dependencies": {
+    "@react-spring/three": "^9.7.2",
     "@react-three/csg": "^2.2.0",
     "@react-three/drei": "^9.64.0",
     "@react-three/fiber": "^8.9.1",

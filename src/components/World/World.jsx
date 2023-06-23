@@ -1,4 +1,4 @@
-import { PivotControls, useGLTF } from "@react-three/drei";
+import { PivotControls, Shadow, useGLTF } from "@react-three/drei";
 import {
     RigidBody,
     Physics,
@@ -13,7 +13,8 @@ import CameraControls from "../CameraControls";
 import MainTitle from "./MainTitle";
 import Boat from "../Boat";
 import WaterBodies from "../WaterBodies/WaterBodies";
-import Boards from "./Boards";
+import Boards from "../Boards/Boards";
+import { MeshBasicMaterial } from "three";
 
 export default function World() {
     const boat = useRef();
@@ -51,10 +52,14 @@ export default function World() {
 
     return (
         <>
+        {/* <fog attach="fog" args={["white", 0, 200]} /> */}
             <CameraControls initialPosition={nodes.spawn_point.position} />
-            <Physics timeStep={1/200}  paused={isPaused} gravity={[0, -9.8, 0]}>
+            <Physics
+                timeStep={1 / 240}
+                paused={isPaused}
+                gravity={[0, -9.8, 0]}
+            >
                 <Boat
-                    
                     ref={boat}
                     initialPosition={nodes.spawn_point.position}
                     boatModel={nodes.boat}
@@ -94,40 +99,48 @@ export default function World() {
                 scale={5}
                 offset={[-30, 0, 80]} 
             >*/}
-            {/* <MainTitle text={"Luís\nGonçalves"}></MainTitle> */}
+            <MainTitle text={"Luís\nGonçalves"}></MainTitle>
             {/* </PivotControls> */}
 
-            <group dispose={null}>
+            <group>
+                {/* Floor */}
                 <mesh
+                    
                     geometry={nodes.floor.children[0].geometry}
                     position={nodes.floor.children[0].position}
                     material={nodes.floor.children[0].material}
                 />
+
                 <mesh
+                    receiveShadow
                     geometry={nodes.floor.children[1].geometry}
                     position={nodes.floor.children[1].position}
                     material={nodes.floor.children[1].material}
-                />
+                >
+                </mesh>
 
+                {/* Cliffs */}
                 <mesh
                     geometry={nodes.cliff_1.geometry}
                     position={nodes.cliff_1.position}
                     material={nodes.cliff_1.material}
-                ></mesh>
+                />
 
                 <mesh
                     geometry={nodes.cliff_2.geometry}
                     position={nodes.cliff_2.position}
                     material={nodes.cliff_2.material}
-                ></mesh>
+                />
 
+                {/* This block serves to get the depth map to 
+                register the water over the edge of the map*/}
                 <mesh
                     geometry={nodes.water_block.geometry}
                     position={nodes.water_block.position}
                     material={nodes.water_block.material}
-                ></mesh>
+                />
 
-                {/* Plaque */}
+                {/* Directions plaque */}
                 <mesh
                     geometry={nodes.plaque.geometry}
                     position={nodes.plaque.position}

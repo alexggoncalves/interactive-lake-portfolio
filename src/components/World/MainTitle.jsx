@@ -7,15 +7,15 @@ const material = new MeshMatcapMaterial();
 
 function MainTitle({ text }) {
     const ref = useRef();
-    const [matcap] = useMatcapTexture("7B5254_E9DCC7_B19986_C8AC91",256);
+    // const [matcap] = useMatcapTexture("7B5254_E9DCC7_B19986_C8AC91",256);
 
-    useEffect(() => {
-        matcap.encoding = sRGBEncoding;
-        matcap.needsUpdate = true;
+    // useEffect(() => {
+    //     matcap.colorSpace = sRGBEncoding;
+    //     matcap.needsUpdate = true;
 
-        material.matcap = matcap;
-        material.needsUpdate = true;
-    }, []);
+    //     material.matcap = matcap;
+    //     material.needsUpdate = true;
+    // }, []);
 
     return (
         <Float

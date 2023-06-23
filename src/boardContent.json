@@ -1,0 +1,31 @@
+{
+    "board_1": {
+        "title": "Crimes Exemplares",
+        "description": "Hi, This is a description.",
+        "type": "Interactive experience",
+        "myRoles": ["Programming","Design"],
+        "links": ["youtube.com"],
+        "languages": ["C#"],
+        "softwares": ["Unity"],
+        "images": ["board_1.png"]
+    },
+    "board_2": {
+        "title": "Malleus",
+        "description": "Hi, This is another description.",
+        "type": "Interactive experience",
+        "myRoles": ["Programming"],
+        "links": ["youtube.com"],
+        "languages": ["C#"],
+        "softwares": ["Unity"]
+    },
+    "board_3": {
+        "title": "Waves",
+        "description": "Hi, This is yet another description.",
+        "type": "Music visualizer",
+        "myRoles": ["Programming"],
+        "links": ["youtube.com"],
+        "languages": ["C#"],
+        "softwares": ["Unity"]
+    }
+
+}
