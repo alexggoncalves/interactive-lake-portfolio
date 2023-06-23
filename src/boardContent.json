@@ -3,29 +3,32 @@
         "title": "Crimes Exemplares",
         "description": "Hi, This is a description.",
         "type": "Interactive experience",
-        "myRoles": ["Programming","Design"],
+        "roles": ["Programmer","Designer"],
         "links": ["youtube.com"],
-        "languages": ["C#"],
-        "softwares": ["Unity"],
-        "images": ["board_1.png"]
+        "tags": ["C#","Unity","Narrative"],
+        "images": ["board_1.png"],
+        "at": "Universidade de Coimbra",
+        "with": ["João Santos", "Luís Costa"]
     },
     "board_2": {
         "title": "Malleus",
         "description": "Hi, This is another description.",
         "type": "Interactive experience",
-        "myRoles": ["Programming"],
+        "roles": ["Programming"],
         "links": ["youtube.com"],
-        "languages": ["C#"],
-        "softwares": ["Unity"]
+        "tags": ["C#", "Phyton", "Unity","Sound"],
+        "at": "Universidade de Coimbra",
+        "with": ["João Santos", "Luís Costa"]
     },
     "board_3": {
         "title": "Waves",
         "description": "Hi, This is yet another description.",
         "type": "Music visualizer",
-        "myRoles": ["Programming"],
+        "roles": ["Programming"],
         "links": ["youtube.com"],
-        "languages": ["C#"],
-        "softwares": ["Unity"]
+        "tags": ["C#", "Unity", "Sound"],
+        "at": "Universidade de Coimbra",
+        "with": ["João Santos"]
     }
 
 }

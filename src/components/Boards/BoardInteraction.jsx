@@ -8,7 +8,7 @@ import BoardContent from "./BoardContent";
 const distanceFromBoard = 8;
 
 const BoardInteraction = ({ frame, content }) => {
-    const [active, setActive] = useState(false);
+    const [isActive, setIsActive] = useState(false);
     const setCameraTarget = useApp((state) => state.setCameraTarget);
     const setCameraPosition = useApp((state) => state.setCameraPosition);
     const clearCameraTarget = useApp((state) => state.clearCameraTarget);
@@ -27,14 +27,14 @@ const BoardInteraction = ({ frame, content }) => {
     const handleIntersectionEnter = () => {
         setCameraTarget(frame.position);
         setCameraPosition(cameraPositionOnEnter);
-        setActive(true);
+        setIsActive(true);
     };
     const handleIntersectionExit = () => {
         if (cameraPositionOnEnter.equals(cameraPosition)) {
             clearCameraTarget();
             clearCameraPosition();
         }
-        setActive(false);
+        setIsActive(false);
     };
 
     return (
@@ -59,7 +59,7 @@ const BoardInteraction = ({ frame, content }) => {
             {/* Contents */}
             {content && (
                 <BoardContent
-                    active={active}
+                    isActive={isActive}
                     content={content}
                     frame={frame}
                 />

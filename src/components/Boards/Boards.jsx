@@ -27,22 +27,27 @@ function Boards({ nodes }) {
             <Board
                 board={nodes.board_4}
                 frame={nodes.frame_4}
+                content={contents[nodes.board_4.name]}
             ></Board>
             <Board
                 board={nodes.board_5}
                 frame={nodes.frame_5}
+                content={contents[nodes.board_5.name]}
             ></Board>
             <Board
                 board={nodes.board_6}
                 frame={nodes.frame_6}
+                content={contents[nodes.board_6.name]}
             ></Board>
             <Board
                 board={nodes.board_7}
                 frame={nodes.frame_7}
+                content={contents[nodes.board_7.name]}
             ></Board>
             <Board
                 board={nodes.board_8}
                 frame={nodes.frame_8}
+                content={contents[nodes.board_8.name]}
             ></Board>
         </>
     );

@@ -1,39 +1,70 @@
 import { useSpring, animated } from "@react-spring/three";
 import { Text } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
-import { useRef, useState } from "react";
-import { degToRad } from "three/src/math/MathUtils";
+import { Vector3 } from "three";
+import RightFloatingSlot from "./RightFloatingSlot";
+import LeftFloatingSlot from "./LeftFloatingSlot";
 
 const AnimatedText = animated(Text);
 
-function BoardContent({ active, content, frame }) {
+function BoardContent({ isActive, content, frame }) {
     const frameHeight =
         frame.geometry.boundingBox.max.y - frame.geometry.boundingBox.min.y;
     const frameWidth =
         frame.geometry.boundingBox.max.x - frame.geometry.boundingBox.min.x;
-    const title = useRef();
-    const center = [
+
+    const center = new Vector3(
         frame.position.x - 0.8 * Math.sin(frame.rotation.y),
         0,
-        frame.position.z - 0.8 * Math.cos(frame.rotation.y),
-    ];
+        frame.position.z - 0.8 * Math.cos(frame.rotation.y)
+    );
 
-    const leftCorner = [
-        center[0] -
+    const topSlot = new Vector3(
+        center.x -
             (frameWidth / 2 - 0.2) * Math.sin(frame.rotation.y + Math.PI / 2),
-        frameHeight,
-        center[2] -
-            (frameWidth / 2 - 0.2) * Math.cos(frame.rotation.y + Math.PI / 2),
-    ];
+        frameHeight + 1,
+        center.z -
+            (frameWidth / 2 - 0.2) * Math.cos(frame.rotation.y + Math.PI / 2)
+    );
 
-    const { opacity } = useSpring({
-        opacity: active ? 1 : 0,
-        position: [],
-        config: {
-            mass: 20,
-            friction: 120,
-            tension: 200,
-        },
+    const rightSlot = new Vector3(
+        center.x +
+            (frameWidth / 2 + 0.5) * Math.sin(frame.rotation.y + Math.PI / 2),
+        frameHeight - 0.8,
+        center.z +
+            (frameWidth / 2 + 0.5) * Math.cos(frame.rotation.y + Math.PI / 2)
+    );
+    const hiddenSlots = new Vector3(
+        center.x + Math.sin(frame.rotation.y + Math.PI / 2),
+        rightSlot.y,
+        center.z + Math.cos(frame.rotation.y + Math.PI / 2)
+    );
+
+    const leftSlot = new Vector3(
+        center.x -
+            (frameWidth / 2 + 0.5) * Math.sin(frame.rotation.y + Math.PI / 2),
+        frameHeight - 0.8,
+        center.z -
+            (frameWidth / 2 + 0.5) * Math.cos(frame.rotation.y + Math.PI / 2)
+    );
+
+    const config = {
+        mass: 20,
+        friction: 120,
+        tension: 200,
+    };
+
+    const visibilityAnimation = useSpring({
+        opacity: isActive ? 1 : 0,
+        scale: isActive ? 1 : 0.8,
+        config,
+    });
+
+    const titleAnimation = useSpring({
+        position: isActive
+            ? [topSlot.x, topSlot.y, topSlot.z]
+            : [topSlot.x, topSlot.y - 1.8, topSlot.z],
+
+        config,
     });
 
     return (
@@ -41,17 +72,33 @@ function BoardContent({ active, content, frame }) {
             {/* Title */}
             {content.title && (
                 <AnimatedText
-                    ref={title}
-                    anchorX="left"
+                    font="./fonts/Roboto-Medium.ttf"
                     color="white"
-                    anchorY="bottom"
-                    position={leftCorner}
                     rotation={frame.rotation}
-                    fillOpacity={opacity}
+                    anchorX="left"
+                    anchorY="center"
+                    scale={visibilityAnimation.scale}
+                    position={titleAnimation.position}
+                    fillOpacity={visibilityAnimation.opacity}
                 >
                     {content.title}
                 </AnimatedText>
             )}
+            // * RIGHT SLOT
+            <RightFloatingSlot
+                content={content}
+                isActive={isActive}
+                visiblePosition={rightSlot}
+                hiddenPosition={hiddenSlots}
+                rotation={frame.rotation}
+            />
+            <LeftFloatingSlot
+                content={content}
+                isActive={isActive}
+                visiblePosition={leftSlot}
+                hiddenPosition={hiddenSlots}
+                rotation={frame.rotation}
+            />
         </>
     );
 }
