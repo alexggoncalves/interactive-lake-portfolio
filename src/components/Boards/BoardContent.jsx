@@ -14,14 +14,14 @@ function BoardContent({ isActive, content, frame }) {
 
     const center = new Vector3(
         frame.position.x - 0.8 * Math.sin(frame.rotation.y),
-        0,
+        frame.position.z,
         frame.position.z - 0.8 * Math.cos(frame.rotation.y)
     );
 
     const topSlot = new Vector3(
         center.x -
             (frameWidth / 2 - 0.2) * Math.sin(frame.rotation.y + Math.PI / 2),
-        frameHeight + 1,
+        frame.position.y + frameHeight + 1,
         center.z -
             (frameWidth / 2 - 0.2) * Math.cos(frame.rotation.y + Math.PI / 2)
     );
@@ -29,7 +29,7 @@ function BoardContent({ isActive, content, frame }) {
     const rightSlot = new Vector3(
         center.x +
             (frameWidth / 2 + 0.5) * Math.sin(frame.rotation.y + Math.PI / 2),
-        frameHeight - 0.8,
+        frame.position.y + frameHeight - 0.8,
         center.z +
             (frameWidth / 2 + 0.5) * Math.cos(frame.rotation.y + Math.PI / 2)
     );
@@ -42,7 +42,7 @@ function BoardContent({ isActive, content, frame }) {
     const leftSlot = new Vector3(
         center.x -
             (frameWidth / 2 + 0.5) * Math.sin(frame.rotation.y + Math.PI / 2),
-        frameHeight - 0.8,
+        frame.position.y + frameHeight - 0.8,
         center.z -
             (frameWidth / 2 + 0.5) * Math.cos(frame.rotation.y + Math.PI / 2)
     );
@@ -84,7 +84,6 @@ function BoardContent({ isActive, content, frame }) {
                     {content.title}
                 </AnimatedText>
             )}
-            // * RIGHT SLOT
             <RightFloatingSlot
                 content={content}
                 isActive={isActive}

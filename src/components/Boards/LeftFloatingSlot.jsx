@@ -51,7 +51,7 @@ function LeftFloatingSlot(
                         scale={visibilityAnimation.scale}
                         fillOpacity={visibilityAnimation.opacity}
                     >
-                        {`TAGS`}
+                        TAGS
                     </AnimatedText>
                     <AnimatedText
                         font="./fonts/Roboto-Bold.ttf"

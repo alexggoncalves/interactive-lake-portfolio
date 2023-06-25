@@ -6,9 +6,6 @@ export default function LoadingScreen() {
     const loadingBarFill = document.querySelector(".loading-bar-fill");
 
     useEffect(() => {
-        if (progress === 100) {
-            console.log("loaded");
-        }
         if (loadingBarFill) {
             loadingBarFill.style.width = progress + "%";
         }

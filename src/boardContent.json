@@ -6,7 +6,7 @@
         "roles": ["Programmer","Designer"],
         "links": ["youtube.com"],
         "tags": ["C#","Unity","Narrative"],
-        "images": ["board_1.png"],
+        "image": ["criminals.png"],
         "at": "Universidade de Coimbra",
         "with": ["João Santos", "Luís Costa"]
     },
@@ -21,6 +21,55 @@
         "with": ["João Santos", "Luís Costa"]
     },
     "board_3": {
+        "title": "Waves",
+        "description": "Hi, This is yet another description.",
+        "type": "Music visualizer",
+        "roles": ["Programming"],
+        "links": ["youtube.com"],
+        "tags": ["C#", "Unity", "Sound"],
+        "at": "Universidade de Coimbra",
+        "with": ["João Santos"]
+    },
+    "board_4": {
+        "title": "Waves",
+        "description": "Hi, This is yet another description.",
+        "type": "Music visualizer",
+        "roles": ["Programming"],
+        "links": ["youtube.com"],
+        "tags": ["C#", "Unity", "Sound"],
+        "at": "Universidade de Coimbra",
+        "with": ["João Santos"]
+    },
+    "board_5": {
+        "title": "Waves",
+        "description": "Hi, This is yet another description.",
+        "type": "Music visualizer",
+        "roles": ["Programming"],
+        "links": ["youtube.com"],
+        "tags": ["C#", "Unity", "Sound"],
+        "at": "Universidade de Coimbra",
+        "with": ["João Santos"]
+    },"board_6": {
+        "title": "Waves",
+        "description": "Hi, This is yet another description.",
+        "type": "Music visualizer",
+        "roles": ["Programming"],
+        "links": ["youtube.com"],
+        "tags": ["C#", "Unity", "Sound"],
+        "at": "Universidade de Coimbra",
+        "with": ["João Santos"]
+    }
+    ,"board_7": {
+        "title": "Waves",
+        "description": "Hi, This is yet another description.",
+        "type": "Music visualizer",
+        "roles": ["Programming"],
+        "links": ["youtube.com"],
+        "tags": ["C#", "Unity", "Sound"],
+        "at": "Universidade de Coimbra",
+        "with": ["João Santos"]
+    },
+    "board_8": {
         "title": "Waves",
         "description": "Hi, This is yet another description.",
         "type": "Music visualizer",

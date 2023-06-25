@@ -1,11 +1,7 @@
 import { useEffect } from "react";
 import BoardInteraction from "./BoardInteraction";
-import { Html, Image, Text } from "@react-three/drei";
 
-const Board = ({ board, frame, content }) => {
-    useEffect(()=>{
-        console.log(content)
-    },[])
+const Board = ({ board, frame, content, image }) => {    
 
     return (
         <group name={board.name}>
@@ -14,7 +10,7 @@ const Board = ({ board, frame, content }) => {
                 position={board.position}
                 rotation={board.rotation}
             >
-                <meshBasicMaterial />
+                <meshBasicMaterial map={image}/>
             </mesh>
             <mesh
                 geometry={frame.geometry}
