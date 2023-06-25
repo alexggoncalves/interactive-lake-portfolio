@@ -14,7 +14,7 @@ function BoardContent({ isActive, content, frame }) {
 
     const center = new Vector3(
         frame.position.x - 0.8 * Math.sin(frame.rotation.y),
-        frame.position.z,
+        frame.position.y,
         frame.position.z - 0.8 * Math.cos(frame.rotation.y)
     );
 

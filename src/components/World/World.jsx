@@ -53,7 +53,7 @@ export default function World() {
     return (
         <>
         {/* <fog attach="fog" args={["white", 0, 200]} /> */}
-            <CameraControls initialPosition={nodes.spawn_point.position} />
+            <CameraControls initialPosition={nodes.spawn_point.position} height={26} distance={27} xShift={0}/>
             <Physics
                 timeStep={1 / 240}
                 paused={isPaused}
@@ -193,19 +193,7 @@ export default function World() {
                     rotation={nodes.bridge_ropes.rotation}
                 ></mesh>
 
-                {/* Fire pit */}
-                <mesh
-                    geometry={nodes.firepit_base.geometry}
-                    position={nodes.firepit_base.position}
-                    material={nodes.firepit_base.material}
-                    rotation={nodes.firepit_base.rotation}
-                ></mesh>
-                <mesh
-                    geometry={nodes.firepit_top.geometry}
-                    position={nodes.firepit_top.position}
-                    material={nodes.firepit_top.material}
-                    rotation={nodes.firepit_top.rotation}
-                ></mesh>
+              
             </group>
         </>
     );
